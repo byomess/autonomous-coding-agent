@@ -310,19 +310,21 @@ class CodeDeveloperImpl implements CodeDeveloper {
                         throw new Error("Failed to get file list from Google Gemini.");
                     }
 
-                    if (fileListResponse.toLowerCase().includes("no more files")) {
-                        continueGettingFiles = false;
-                    } else {
-                        const jsonResult = this.jsonParser.extractJson<string[]>(fileListResponse);
-                        if (jsonResult.success && Array.isArray(jsonResult.data)) {
-                            neededFiles = [...new Set([...neededFiles, ...jsonResult.data])];
-                        } else {
-                            this.logger.warn(`Gemini did not return a valid array of files: ${fileListResponse}`);
-                            if (jsonResult.error) {
-                                this.logger.debug(`Extraction error: ${jsonResult.error}`);
-                            }
-                        }
-                    }
+                    continueGettingFiles = false;
+
+                    // if (fileListResponse.toLowerCase().includes("no more files")) {
+                    //     continueGettingFiles = false;
+                    // } else {
+                    //     const jsonResult = this.jsonParser.extractJson<string[]>(fileListResponse);
+                    //     if (jsonResult.success && Array.isArray(jsonResult.data)) {
+                    //         neededFiles = [...new Set([...neededFiles, ...jsonResult.data])];
+                    //     } else {
+                    //         this.logger.warn(`Gemini did not return a valid array of files: ${fileListResponse}`);
+                    //         if (jsonResult.error) {
+                    //             this.logger.debug(`Extraction error: ${jsonResult.error}`);
+                    //         }
+                    //     }
+                    // }
                 }
 
             }
