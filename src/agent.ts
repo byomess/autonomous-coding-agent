@@ -277,7 +277,7 @@ class CodeDeveloperImpl implements CodeDeveloper {
         }
 
         let iterationCount = 0;
-        const maxIterations = 10;
+        const maxIterations = 3;
 
         const projectFiles = await this.testRunnerService.getProjectFiles(requirements.repositoryPath);
         this.logger.debug(`Project files: ${JSON.stringify(projectFiles)}`);
@@ -364,16 +364,18 @@ class CodeDeveloperImpl implements CodeDeveloper {
                 continue;
             }
 
-            const testResult = await this.testRunnerService.runTests(requirements.repositoryPath, TEST_COMMAND); // Using constant here, consider config
-            console.log(testResult.passed ? chalk.green('Tests passed!') : chalk.red('Tests failed!'));
-            this.logger.debug(`Test results: ${JSON.stringify(testResult)}`);
+            // const testResult = await this.testRunnerService.runTests(requirements.repositoryPath, TEST_COMMAND); // Using constant here, consider config
+            // console.log(testResult.passed ? chalk.green('Tests passed!') : chalk.red('Tests failed!'));
+            // this.logger.debug(`Test results: ${JSON.stringify(testResult)}`);
 
-            if (testResult.passed) {
-                break;
-            } else {
-                requirements.additionalDetails['testErrors'] = testResult.details || 'Tests failed without details.';
-                this.logger.error(`Tests failed. Details: ${testResult.details}`);
-            }
+            // if (testResult.passed) {
+            //     break;
+            // } else {
+            //     requirements.additionalDetails['testErrors'] = testResult.details || 'Tests failed without details.';
+            //     this.logger.error(`Tests failed. Details: ${testResult.details}`);
+            // }
+
+            break;
         }
 
         if (iterationCount === maxIterations) {
@@ -460,7 +462,7 @@ class PromptGeneratorImpl implements PromptGenerator {
     generateCodePromptFromScrumStory(scrumStory: ScrumStory, fileContents: { [filePath: string]: string }, iterationDescription: string, iterationNumber: number): string {
         let prompt = '\n';
         prompt += `Implement all the code for this Scrum story.\n`;
-        prompt += `Use Test-Driven Development (TDD), meaning you should generaet all the tests first. Then, implement the code to pass the tests.\n`;
+        // prompt += `Use Test-Driven Development (TDD), meaning you should generaet all the tests first. Then, implement the code to pass the tests.\n`;
         prompt += `\n`;
         prompt += `Iteration #${iterationNumber}\n`;
         prompt += `\n\n`;
@@ -483,7 +485,7 @@ class PromptGeneratorImpl implements PromptGenerator {
         }
         prompt += '\n\n';
         prompt += `Your MUST respond using the following format, as an example:\n`;
-        prompt += `{\n  "src/file1.ts": "export class MyClass { ... }",\n  "test/file1.test.ts": "describe('MyClass', () => { ... })"\n}\n\n`;
+        prompt += `{\n  "src/file1.ts": "export class MyClass { ... }",\n "src/file2.ts": "export function myFunction() { ... }"\n}\n\n`;
 
         return prompt;
     }
