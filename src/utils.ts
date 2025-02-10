@@ -46,6 +46,9 @@ export function sanitizeJsonString(jsonString: string): string {
   // This will remove remaining closing ``` blocks
   sanitizedJsonString = sanitizedJsonString.replace(/```/g, "");
 
+  // Unescape single quotes characters
+  sanitizedJsonString = sanitizedJsonString.replace(/\\'/g, "'");
+
   return sanitizedJsonString;
 }
 

@@ -8,9 +8,9 @@ import ignore, { Ignore } from 'ignore';
 
 const execAsync = promisify(exec);
 
-export async function runTests(testCommand: string): Promise<TestResult> {
+export async function runTests(repositoryPath: string, testCommand: string): Promise<TestResult> {
     try {
-        const { stdout, stderr } = await execAsync(testCommand);
+        const { stdout, stderr } = await execAsync(testCommand, { cwd: repositoryPath });
         // IMPORTANT:  Success is determined by the *absence* of an error being thrown.
         // If execAsync completes without throwing, the tests passed.
         return { passed: true, details: stdout };
@@ -40,7 +40,7 @@ async function getIgnoreFilter(dir: string): Promise<Ignore> {
         }
     }
 
-    ig.add(['node_modules', 'dist', '.git', '.*']);
+    ig.add(['node_modules', 'dist', '.git', 'public', '.*']);
     return ig;
 }
 

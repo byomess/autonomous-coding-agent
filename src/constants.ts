@@ -58,4 +58,7 @@ Additional Details:
   },
 };
 
-export const TEST_COMMAND = "/home/byomess/.nvm/versions/node/v23.1.0/bin/pnpm test";
+export const NODE_BIN_PATH = "/home/byomess/.nvm/versions/node/v23.1.0/bin/node";
+export const NPM_BIN_PATH = "/home/byomess/.nvm/versions/node/v23.1.0/bin/npm";
+
+export const TEST_COMMAND = `${NPM_BIN_PATH} run test`;
